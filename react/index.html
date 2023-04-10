@@ -15,22 +15,35 @@
 <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script type="text/babel">
-    const root = document.getElementById("root");
-    function App(){
-        const [minutes, setMinutes] = React.useState();
+    function MinutesToHours(){
+
+        const [amount, setAmount] = React.useState(0);
+        const [fliped, setFliped] = React.useState(false); 
         const onChange = (event) =>{
-            setMinutes(event.target.value);
+            setAmount(event.target.value)
         }
+        const reset = () => setAmount(0)
+        const flip = () => setFliped((current) => !current)
         return (
         <div>
-           <h1 className="hi">Super Converter</h1>
-           <label htmlFor="minutes">Hours</label>
-           <input value={minutes} id="minutes" type="number" placeholder="Hours" onChange={onChange}/>
-           <h4> You want to convert {minutes}</h4>
-           <label htmlFor="hours">Minutes</label>
-           <input id="hours"type="number" placeholder="Minutes"/>
+           <label for="minutes"></label>
+           <input value={fliped ? amount * 60 : amount} id="minutes" placeholder="Minutes" type="number" onChange={onChange} disabled={fliped}/>
+           <h4> you want convert? {amount}</h4>
+           <label for="hours"></label>
+           <input value={fliped ? amount : Math.round(amount/60)} id="hours" placeholder="Hours" type="number" onChange={onChange} disabled={!fliped}/>
+           <button id="reset" onClick={reset}>reset</button>
+           <button id="flip" onClick={flip}>flip</button>
         </div>);
     }
+    function App(){
+        return (
+            <div>
+                <h1> Super Converter </h1>
+                <MinuteToHours />
+            </div>
+        );
+    }
+    const root = document.getElementById("root");
     ReactDOM.render(<App/>, root);
 </script>
 </html>
